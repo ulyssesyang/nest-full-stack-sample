@@ -1,0 +1,22 @@
+version: "3"
+services:
+  backend:
+    container_name: backend
+    build: .
+    ports:
+      - "6060:6060"
+    volumes:
+      - .:/app
+    links:
+      - mongo
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27020:27020"
+    environment:
+      MONGO_INITDB_DATABASE: backend
+    volumes:
+      - data-volume:/data/db
+volumes:
+  data-volume:
