@@ -13,7 +13,7 @@ COPY . .
 COPY .env.dev .env.test .env.prod
 
 #Expose port and begin application
-EXPOSE 6060
+EXPOSE 3000
 
 # Start the app
 CMD [ "npm", "run", "start:dev"]

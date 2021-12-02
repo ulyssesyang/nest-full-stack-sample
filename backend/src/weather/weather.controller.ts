@@ -1,9 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-
-@Controller('weather')
+import { Controller, Query, Get } from '@nestjs/common';
+import { WeatherService } from './weather.service'
+@Controller()
 export class WeatherController {
-  @Get()
-  findByLocation(): string {
-    return 'test';
-  }
+    constructor(
+        private readonly weatherService: WeatherService,
+    ) {}
+
+    @Get()
+    async find(@Query('location') location: string) {
+    return await this.weatherService.findByLocation(location);
+    }
 }

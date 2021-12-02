@@ -4,7 +4,7 @@ services:
     container_name: backend
     build: .
     ports:
-      - "6060:6060"
+      - "3000:3000"
     volumes:
       - .:/app
     links:
@@ -13,7 +13,7 @@ services:
     image: mongo:latest
     container_name: mongo
     ports:
-      - "27020:27020"
+      - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: backend
     volumes:
