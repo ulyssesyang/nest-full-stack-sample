@@ -1,6 +1,6 @@
 FROM node:carbon
 # App directory
-WORKDIR /app
+WORKDIR /backend
 
 # App dependencies
 COPY package*.json ./
@@ -10,7 +10,7 @@ RUN npm i
 COPY . .
 
 # Env setup
-COPY .env.dev .env.test .env.prod
+COPY .env.dev .env.test
 
 #Expose port and begin application
 EXPOSE 3000
