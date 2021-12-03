@@ -14,6 +14,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = exception.status;
     }
 
+    console.log(JSON.stringify(exception, undefined, 2));
+
     const message = exception.message || 'Something broken!';
 
     if (status < 500) {

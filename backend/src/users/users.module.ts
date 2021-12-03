@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { User, UsersSchema } from './schemas/users.schema'
+import { User, UsersSchema } from './schema/users.schema'
 
 const Schemas = [{ name: User.name, schema: UsersSchema }];
 

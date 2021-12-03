@@ -1,11 +1,13 @@
+import * as fs from 'fs';
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { User } from '../users/schemas/users.schema';
-import { CreateUserDto } from '../users/dto/create.dto';
+import { IUser } from '../users/interface/user.interface';
+import { RegisterUserDto } from './dto/register.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { PasswordService } from '../services/password/password.service';
 import { JwtService } from '@nestjs/jwt';
-import { IJwtPayload } from './interfaces/jwt.interface';
+import { IJwtPayload } from './interfaces/jwt-payload.interface';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,7 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   public async login(userDto: LoginUserDto) {
@@ -26,18 +29,17 @@ export class AuthService {
       throw { message: 'LOGIN_ERR', status: HttpStatus.UNAUTHORIZED };
     }
 
-    const tokenCode = this.passwordService.generateRandomString(32);
+    const token = this.signUserToken(user._id, user.email);
+    const { email, name, _id } = user;
 
-    delete user.password; delete user.salt;
-    return { user, token: this.signUserToken(user, tokenCode, 'login') };
+    return { email, name, _id, token };
   }
 
-  public async register(userDto: CreateUserDto) {
+  public async register(userDto: RegisterUserDto) {
     let error: any;
-    let user: User;
+    let user: IUser;
 
     const { salt, hash } = this.passwordService.hash(userDto.password);
-    const tokenCode = this.passwordService.generateRandomString(32);
 
     user = await this.usersService.create({ ...userDto, salt, password: hash });
 
@@ -45,15 +47,20 @@ export class AuthService {
       throw { message: 'EMAIL_IN_USE', status: HttpStatus.FORBIDDEN };
     }
 
-    return { user, token: this.signUserToken(user, tokenCode, 'register') };
+    const token = this.signUserToken(user._id, user.email);
+    const { email, name, _id } = user;
+    return { email, name, _id, token };
   }
 
-  private signUserToken(user: User, token: string, iss = 'unknown'): string {
-    const payload: IJwtPayload = { iss, id: user._id, email: user.email, token };
-    return this.jwtService.sign(payload);
+  private signUserToken(id: string, email: string): string {
+    const payload: IJwtPayload = { id, email, iss: this.configService.getEnv('ISS') };
+    const privateKey = `${fs.readFileSync('./keys/private.key').toString().replace(/\r?\n|\r/g, '')}`;
+
+    return this.jwtService.sign(payload, { privateKey });
   }
 
-  public async validateUser(payload: IJwtPayload): Promise<User> {
-    return await this.usersService.findById(payload.id, true);
+  public async validateUser(payload: IJwtPayload): Promise<IUser> {
+    console.log({validateUser: payload})
+    return await this.usersService.findById(payload.id);
   }
 }
