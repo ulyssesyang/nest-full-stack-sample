@@ -32,4 +32,8 @@ export class ConfigService {
     public getEnv(key: string): string {
         return this.envConfig[key];
     }
+
+    public getNumber(key: string): number {
+        return parseInt(this.envConfig[key]);
+    }
 }
