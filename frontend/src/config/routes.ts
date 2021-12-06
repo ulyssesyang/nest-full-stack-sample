@@ -1,9 +1,10 @@
 import {
   Home as HomeIcon,
-  SettingsOutlined as SettingsIcon,
+  Favorite as FavoriteIcon,
 } from '@mui/icons-material';
 
 import { Home } from '../pages/Home';
+import { Favorites } from '../pages/Favorites';
 
 import { Route } from '../types/Route';
 
@@ -19,12 +20,13 @@ const routes: Array<Route> = [
     appendDivider: true,
   },
   {
-    key: 'router-settings',
-    title: 'Settings',
-    description: 'Account Settings',
-    path: '/account/settings',
+    key: 'router-favorites',
+    title: 'Favorites',
+    description: 'Favorites',
+    component: Favorites,
+    path: '/favorites',
     isEnabled: true,
-    icon: SettingsIcon,
+    icon: FavoriteIcon,
   },
 ];
 

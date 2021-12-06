@@ -8,7 +8,7 @@ export const PAGE_TITLE_LOGIN = "Login";
 export const PAGE_TITLE_REGISTER = "Register";
 export const PAGE_TITLE_HOME = "Home";
 export const PAGE_TITLE_DASHBOARD = 'Dashboard';
-export const PAGE_TITLE_SETTINGS = "Settings";
+export const PAGE_TITLE_FAVORITE = "Favorites";
 
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 30;

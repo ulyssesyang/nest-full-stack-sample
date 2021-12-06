@@ -42,7 +42,6 @@ export function fetchPromise(requestInfo: IRequestInfo) {
               response.clone().json().then((data: any) => {
                 resolve(data);
               }).catch(() => {
-                // Log the Error
                 resolve(null);
               });
               break;
@@ -50,12 +49,12 @@ export function fetchPromise(requestInfo: IRequestInfo) {
               response.clone().json().then((data: any) => {
                 reject(data);
               }).catch(() => {
-                // Log the Error
                 reject(null);
               });
           }
         }).catch((error: Error) => {
-          // Log the Error
+          console.log(error)
+          alert(error.message)
           reject(error);
         });
       });
