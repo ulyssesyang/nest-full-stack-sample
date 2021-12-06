@@ -11,8 +11,6 @@ import { UsersModule } from './users/users.module';
 import { WeatherModule } from './weather/weather.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HttpModule } from '@nestjs/axios';
-import { RouterModule } from 'nest-router';
-import { routes } from './app.routes';
 
 const MongooseConfig = {
   imports: [ConfigModule],
@@ -26,7 +24,6 @@ const MongooseConfig = {
   imports: [
     ConfigModule,
     MongooseModule.forRootAsync(MongooseConfig),
-    RouterModule.forRoutes(routes),
     AuthModule,
     UsersModule,
     WeatherModule,

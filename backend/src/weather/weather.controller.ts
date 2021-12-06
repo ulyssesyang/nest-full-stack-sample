@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { WeatherService } from './weather.service';
 import { WeatherDto } from './dto/weather.dto';
 
-@Controller()
+@Controller('weather')
 export class WeatherController {
     constructor(
         private readonly weatherService: WeatherService,
@@ -15,10 +15,10 @@ export class WeatherController {
         return this.weatherService.findByLocation(location);
     }
 
-    @Get()
+    @Get(':userId')
     @UseGuards(AuthGuard('jwt'))
-    findFavoritesByUserId(@Param('id') id: string) {
-        return this.weatherService.findFavoritesByUserId(id);
+    findFavoritesByUserId(@Param('userId') userId: string) {
+        return this.weatherService.findFavoritesByUserId(userId);
     }
 
     @Post()

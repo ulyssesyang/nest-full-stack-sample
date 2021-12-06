@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './users.service';
 
-@Controller()
+@Controller('users')
 export class UsersController {
 
   constructor(
