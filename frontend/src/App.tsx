@@ -9,6 +9,7 @@ import { Register } from './pages/Register';
 
 import { AppContext, ThemeModeContext } from './contexts';
 import { User } from './types/User';
+import Debounce from './hooks/useDebounce';
 
 import { routes } from './config';
 import { Route as AppRoute } from './types';
@@ -45,6 +46,10 @@ function App() {
 
   const theme = useMemo(() => getAppTheme(mode), [mode]);
 
+  function searchLocationWeather(event) {
+    console.log('location :>> ', event.target.value);
+  }
+
   const addRoute = (route: AppRoute) => (
     <Route key={route.key} path={route.path} component={route.component || PageDefault} exact />
   );
@@ -60,7 +65,7 @@ function App() {
               <Route key='register' path='/register' component={() => user?.email ? <Redirect to='/' /> : <Register />} exact />
               {
                 user?.email ?
-                <Layout>
+                <Layout handleSearch={Debounce(searchLocationWeather, 1000)}>
                   {routes.map((route: AppRoute) =>
                     route.subRoutes ? route.subRoutes.map((item: AppRoute) => addRoute(item)) : addRoute(route)
                   )}

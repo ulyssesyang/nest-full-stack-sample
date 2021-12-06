@@ -1,16 +1,23 @@
+import React from 'react';
 import { alpha, InputBase, styled, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-export const Search = () => (
-  <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-    <SearchWrapper>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
-    </SearchWrapper>
-  </Box>
-);
+interface ISearchProps {
+  onChange: React.ChangeEventHandler<HTMLInputElement>,
+}
+
+export const Search = (props: ISearchProps) => {
+  return (
+    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+      <SearchWrapper>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} onChange={props.onChange} />
+      </SearchWrapper>
+    </Box>
+  );
+};
 
 const SearchWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -18,6 +25,7 @@ const SearchWrapper = styled('div')(({ theme }) => ({
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
+    width: 500
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,

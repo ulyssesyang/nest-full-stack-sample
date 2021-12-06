@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { styled, Box } from '@mui/material';
 
 import { Navigation } from '../Navigation';
@@ -7,7 +7,7 @@ import { Footer } from '../Footer';
 
 import { FOOTER_HEIGHT } from '../../utils/constants';
 
-export const Layout: FC = ({ children }) => {
+export const Layout = ({ children, handleSearch }) => {
   const [open, setOpen] = useState(false);
   const toggleNavigation = () => setOpen((status) => !status);
 
@@ -15,7 +15,7 @@ export const Layout: FC = ({ children }) => {
     <LayoutWrapper>
       <ContentWrapper>
         <Box component="header">
-          <Header toggleNavigation={toggleNavigation} />
+          <Header toggleNavigation={toggleNavigation} handleSearch={handleSearch} />
         </Box>
         <Navigation open={open} handleClose={toggleNavigation} />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
