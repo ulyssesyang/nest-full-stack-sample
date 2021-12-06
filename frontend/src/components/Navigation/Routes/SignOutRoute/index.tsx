@@ -1,9 +1,16 @@
 import { ListItemButton, ListItemIcon, ListItemText, IconButton, styled } from '@mui/material';
 import ExitToApp from '@mui/icons-material/ExitToApp';
+import { useContext } from 'react';
+import { AppContext } from '../../../../contexts';
 
 export const SignOutRoute = () => {
+  const context = useContext(AppContext);
+
   const handleSignOutClick = () => {
-    alert('Signing Out...');
+    context.updateUser({});
+    window.localStorage.removeItem('user');
+    console.log('sign out...');
+    window.location.assign('/login');
   };
 
   return (

@@ -18,7 +18,7 @@ export const Login = () => {
     console.log(values);
     const requestInfo: IRequestInfo = {
       Method: HTTP_Method.POST,
-      EndPoint: `${process.env.REACT_APP_API_BASE_PATH}/v1/auth/login`,
+      EndPoint: `${process.env.REACT_APP_API_BASE_PATH}/login`,
       RequestBody: values,
       Headers: { 'Content-Type': 'application/json' },
     };

@@ -1,3 +1,4 @@
+import {useContext} from 'react';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -5,12 +6,31 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import useForm from "../hooks/useForm";
+import {IRequestInfo, fetchPromise, HTTP_Method} from "../hooks/useFetchCall";
 import FormFields from "../components/FormFields";
 import { APP_TITLE, PAGE_TITLE_REGISTER } from '../utils/constants';
+import { AppContext } from '../contexts';
 
 export const Register = () => {
+  const { updateUser } = useContext(AppContext);
+
   const handleSubmit = () => {
-    console.log(values)
+    console.log(values);
+    const requestInfo: IRequestInfo = {
+      Method: HTTP_Method.POST,
+      EndPoint: `${process.env.REACT_APP_API_BASE_PATH}/register`,
+      RequestBody: values,
+      Headers: { 'Content-Type': 'application/json' },
+    };
+
+    fetchPromise(requestInfo)
+    .then((user: any) => {
+      updateUser(user);
+    },
+    (error: Error) => {
+      console.log({error});
+      alert(error.message);
+    });
   }
 
   const {

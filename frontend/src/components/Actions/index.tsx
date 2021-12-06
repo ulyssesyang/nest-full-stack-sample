@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MoreVert as MoreIcon,
-  Fingerprint as FingerprintIcon,
   Logout as LogoutIcon,
   Settings as SettingsIcon,
   List as PreferencesIcon,
