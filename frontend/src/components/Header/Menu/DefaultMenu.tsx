@@ -1,6 +1,6 @@
 import { Divider, Menu, MenuItem } from '@mui/material';
 
-import { Settings, Preferences, SignOut } from '../../Actions';
+import { Settings, SignOut } from '../../Actions';
 
 interface DefaultMenuProps {
   isMenuOpen: boolean;
@@ -13,10 +13,6 @@ export const DefaultMenu = ({ isMenuOpen, handleMenuClose, anchorEl }: DefaultMe
     <MenuItem onClick={handleMenuClose}>
       <Settings disableTooltip />
       Settings
-    </MenuItem>
-    <MenuItem onClick={handleMenuClose}>
-      <Preferences disableTooltip />
-      Preferences
     </MenuItem>
     <Divider />
     <MenuItem onClick={handleMenuClose}>
