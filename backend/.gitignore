@@ -4,6 +4,7 @@
 
 # secrets
 /keys
+/env
 
 # Logs
 logs

@@ -8,6 +8,7 @@ import { ConfigService } from '../config/config.service';
 import { Weather } from './schema/weather.schema';
 import { IWeather } from './interface/weather.interface';
 import { WeatherDto } from './dto/weather.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class WeatherService {
@@ -15,6 +16,7 @@ export class WeatherService {
         @InjectModel(Weather.name) private readonly weatherModel: Model<IWeather>,
         private readonly httpService: HttpService,
         private readonly configService: ConfigService,
+        private readonly usersService: UsersService,
     ) {}
 
     public async findByLocation(location: string) {
@@ -22,7 +24,13 @@ export class WeatherService {
             const openWeatherUrl = this.configService.getEnv('OPEN_WEATHER_URL');
             const openWeatherKey = this.configService.getEnv('OPEN_WEATHER_KEY');
             return this.httpService.get(`${openWeatherUrl}?q=${location}&appid=${openWeatherKey}`)
-            .pipe(map((response: AxiosResponse) => response.data));
+            .pipe(map((response: AxiosResponse) => {
+                return {
+                    name: response.data.name,
+                    weather: response.data.weather[0]?.main,
+                    temp: response.data.main?.temp,
+                };
+            }));
         } catch (error) {
             throw new BadRequestException();
         }
@@ -33,7 +41,8 @@ export class WeatherService {
     }
 
     public async createFavoriteWeather(favorite: WeatherDto): Promise<IWeather> {
-        if (await this.findFavoritesByUserId(favorite.userId)) {
+        const user = await this.usersService.findById(favorite.userId);
+        if (!user) {
             throw new Error('NO_SUCH_USER');
         }
 

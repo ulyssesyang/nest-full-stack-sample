@@ -29,7 +29,7 @@ export function fetchPromise(requestInfo: IRequestInfo) {
     return new Promise((resolve: any, reject: any) => {
         const fetchURL = requestInfo.EndPoint;
         const fetchData = {
-          body: requestInfo.RequestBody ? JSON.stringify(requestInfo.RequestBody) : "",
+          body: requestInfo.RequestBody ? JSON.stringify(requestInfo.RequestBody) : null,
           headers: requestInfo.Headers ? requestInfo.Headers : {},
           method: requestInfo.Method
         };

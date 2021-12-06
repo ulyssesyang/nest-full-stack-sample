@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 import { Weather, WeatherSchema } from './schema/weather.schema'
+import { UsersModule } from '../users/users.module'
 
 const Schemas = [{ name: Weather.name, schema: WeatherSchema }];
 
@@ -19,7 +20,7 @@ HttpModule.registerAsync({
 });
 
 @Module({
-  imports: [MongooseModule.forFeature(Schemas), HttpModule],
+  imports: [MongooseModule.forFeature(Schemas), HttpModule, UsersModule],
   controllers: [WeatherController],
   providers: [WeatherService],
   exports: [WeatherService],
