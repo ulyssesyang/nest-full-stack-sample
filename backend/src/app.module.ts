@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
 import { WeatherController } from './weather/weather.controller';
-import { WeatherService } from './weather/weather.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
@@ -40,7 +39,6 @@ const MongooseConfig = {
   ],
   providers: [
     AppService,
-    WeatherService,
     PasswordService,
   ],
 })

@@ -1,12 +1,18 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { ConfigService } from '../config/config.service';
 import { map } from 'rxjs';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { ConfigService } from '../config/config.service';
+import { Weather } from './schema/weather.schema';
+import { IWeather } from './interface/weather.interface';
+import { WeatherDto } from './dto/weather.dto';
 
 @Injectable()
 export class WeatherService {
     constructor(
+        @InjectModel(Weather.name) private readonly weatherModel: Model<IWeather>,
         private readonly httpService: HttpService,
         private readonly configService: ConfigService,
     ) {}
@@ -20,5 +26,18 @@ export class WeatherService {
         } catch (error) {
             throw new BadRequestException();
         }
+    }
+
+    public async findFavoritesByUserId(userId: string) {
+        return this.weatherModel.find({ userId });
+    }
+
+    public async createFavoriteWeather(favorite: WeatherDto): Promise<IWeather> {
+        if (await this.findFavoritesByUserId(favorite.userId)) {
+            throw new Error('NO_SUCH_USER');
+        }
+
+        const createdFavorite = await this.weatherModel.create(favorite);
+        return this.weatherModel.findById(createdFavorite._id);
     }
 }
