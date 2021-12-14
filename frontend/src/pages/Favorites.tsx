@@ -46,7 +46,7 @@ export const Favorites = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { 
+            {
               responseInfo?.Data?.length ?
               responseInfo.Data.map((favorite, index) => (
                 <TableRow
