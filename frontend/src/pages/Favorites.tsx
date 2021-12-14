@@ -1,8 +1,14 @@
-import { Typography, Divider } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import Grid from '@mui/material/Grid';
-import ListItem from '@mui/material/ListItem';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import { AppContext } from '../contexts';
 import { APP_TITLE, PAGE_TITLE_FAVORITE } from '../utils/constants';
@@ -29,25 +35,37 @@ export const Favorites = () => {
       </Helmet>
       <Typography variant="h4">{`${appContext.user.name} Favorites`}</Typography>
       <br/>
-      {
-        responseInfo?.Data?.length ?
-        responseInfo.Data.map(favorite => {
-          return (
-            <Grid container spacing={2} key={favorite._id}>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <ListItem>Location: {favorite.name}</ListItem>
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <ListItem>Weather: {favorite.weather}</ListItem>
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <ListItem>Temperature: {favorite.temp} F</ListItem>
-              </Grid>
-              <Divider light />
-            </Grid>
-          );
-        }) : <div>You have no favorites</div>
-      }
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell align="left">Location</TableCell>
+              <TableCell align="left">Weather</TableCell>
+              <TableCell align="left">Temperature</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { 
+              responseInfo?.Data?.length ?
+              responseInfo.Data.map((favorite, index) => (
+                <TableRow
+                  key={favorite._id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">{favorite.name}</TableCell>
+                  <TableCell align="left">{favorite.weather}</TableCell>
+                  <TableCell align="left">{favorite.temp} F</TableCell>
+                </TableRow>
+              ))
+              : <div>You have no favorites</div>
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
